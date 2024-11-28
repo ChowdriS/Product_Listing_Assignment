@@ -1,32 +1,36 @@
-// src/components/SearchBar.js
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { getProducts } from '../redux/slices/productSlice';
+import { setSearchQuery } from '../redux/slices/searchSlice';
 
 const SearchBar = () => {
+  const [search, setSearch] = useState('');
   const dispatch = useDispatch();
-  const [searchTerm, setSearchTerm] = useState('');
 
-  // Update URL search query on change
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    window.history.pushState(null, '', `?search=${value}`);
-  };
-
-  // Effect to handle initial query param
   useEffect(() => {
-    const searchParam = new URLSearchParams(window.location.search).get('search') || '';
-    setSearchTerm(searchParam);
-  }, []);
+    // Dispatch search query to Redux store
+    dispatch(setSearchQuery(search));
+
+    // Trigger product fetch
+    const timeoutId = setTimeout(() => {
+      dispatch(getProducts({
+        search,
+        limit: 10,
+        skip: 0
+      }));
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [search, dispatch]);
 
   return (
-    <div className="mb-4">
+    <div className="p-4 bg-white rounded-lg shadow-md mb-6">
       <input
         type="text"
-        value={searchTerm}
-        onChange={handleSearch}
-        placeholder="Search products"
-        className="p-2 border rounded"
+        placeholder="Search products..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
   );
