@@ -5,13 +5,13 @@ import SearchBar from '../components/SearchBar';
 
 const ProductPage = () => {
   return (
-    <div className="container mx-auto product-page px-4 sm:px-8">
+    <div className="container mx-auto">
       <SearchBar />
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="category-selector w-full md:w-1/4 p-4 bg-white rounded shadow-md">
+      <div className="flex">
+        <div className="w-1/4 p-4">
           <CategorySelector />
         </div>
-        <div className="product-list w-full md:w-3/4 p-4 bg-white rounded shadow-md">
+        <div className="w-3/4 p-4">
           <ProductList />
         </div>
       </div>

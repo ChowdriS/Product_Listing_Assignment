@@ -36,35 +36,35 @@ const CategorySelector = () => {
   };
 
   return (
-      <div className="category-selector p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Categories</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+    <div className="p-4 bg-gray-100 rounded">
+      <h2 className="text-xl font-bold mb-4">Categories</h2>
+      <div className="flex flex-wrap gap-2">
+        <button
+          className={`px-4 py-2 rounded ${
+            selectedCategory === '' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-gray-200 text-gray-700'
+          }`}
+          onClick={() => handleCategorySelect('')}
+        >
+          All Categories
+        </button>
+        {categories.map((category, index) => (
           <button
-            className={`px-4 py-2 rounded-lg text-sm w-full ${
-              selectedCategory === '' 
+            key={`category-${index}`}
+            className={`px-4 py-2 rounded ${
+              selectedCategory === getCategoryName(category)
                 ? 'bg-blue-500 text-white' 
                 : 'bg-gray-200 text-gray-700'
             }`}
-            onClick={() => handleCategorySelect('')}
+            onClick={() => handleCategorySelect(getCategoryName(category))}
           >
-            All Categories
+            {getCategoryName(category)}
           </button>
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className={`px-4 py-2 rounded-lg text-sm w-full ${
-                selectedCategory === category
-                  ? 'bg-blue-500 text-white' 
-                  : 'bg-gray-200 text-gray-700'
-              }`}
-              onClick={() => handleCategorySelect(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        ))}
       </div>
-    );
+    </div>
+  );
 };
 
 export default CategorySelector;
